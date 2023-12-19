@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import LoginScreen from '../components/Login/Login'
 import { StatusBar } from 'expo-status-bar'
-import Account from '../components/account'
+import Account from '../components/Account'
 import { useAuthStore } from '../components/auth/authStore'
 
 interface User {

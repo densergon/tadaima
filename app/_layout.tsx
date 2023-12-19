@@ -1,56 +1,55 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
-import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { Tabs, router } from 'expo-router'
+import React from 'react'
+import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { Pressable, Text, View } from 'react-native';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-  });
-
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+const _layout = () => {
+    const back = () => {
+        router.push('/profile');
     }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return <RootLayoutNav />;
+    return (
+        <Tabs >
+            <Tabs.Screen name='index' options={{
+                title: 'Pagina Principal',
+                tabBarIcon: () => <AntDesign name="home" size={24} color="black"
+                />
+            }} />
+            <Tabs.Screen name='teacher' options={{
+                href: null,
+                headerShown: false,
+            }} />
+            <Tabs.Screen name='register' options={{
+                title: 'Registro',
+                href: null,
+                headerLeft: () => <>
+                    <View style={{ margin: 10 }}>
+                        <Pressable onPress={back}>
+                            <AntDesign name="arrowleft" size={24} color="black" />
+                        </Pressable>
+                    </View></>
+            }} />
+            <Tabs.Screen name='news' options={{
+                title: 'Noticias',
+                headerShown: false,
+                tabBarIcon: () => <Entypo name="news" size={24} color="black" />
+            }} />
+            <Tabs.Screen name='profile' options={{
+                title: 'Perfil',
+                tabBarIcon: () => <FontAwesome name="user-circle-o" size={24} color="black" />,
+                headerShown: false
+            }} />
+            <Tabs.Screen name='student' options={{
+                headerShown: false,
+                href: null,
+            }} />
+            <Tabs.Screen name='administrator' options={{
+                headerShown: false,
+                href: null,
+            }} />
+        </Tabs>
+    )
 }
 
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
-  );
-}
+export default _layout

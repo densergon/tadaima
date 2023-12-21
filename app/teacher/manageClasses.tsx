@@ -33,12 +33,6 @@ const Page = () => {
     return (
         <ScrollView>
             <View>
-                <View style={style.header}>
-                    <Text style={style.p}>Mis clases</Text>
-                    <Pressable style={style.btnAddClass}>
-                        <Text>Agregar clase</Text>
-                    </Pressable>
-                </View>
                 {clases.map((clase: Clase) => (
                     <View style={style.class} key={clase.idClases}>
                         <Text style={style.p}>{clase.asignatura}</Text>
@@ -52,17 +46,6 @@ const Page = () => {
 export default Page;
 
 const style = StyleSheet.create({
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10
-    },
-    btnAddClass: {
-        backgroundColor: '#3498db',
-        margin: 5,
-        padding: 10
-    },
     class: {
         backgroundColor: 'white',
         padding: 10,

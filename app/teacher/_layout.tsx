@@ -20,7 +20,7 @@ const _layout = () => {
                 name="manageClasses" // This is the name of the page and must match the url from root
                 options={{
                     drawerLabel: 'Clases',
-                    title: 'Clases',
+                    title: 'Mis clases',
                 }} />
             <Drawer.Screen
                 name="teacherChat" // This is the name of the page and must match the url from root

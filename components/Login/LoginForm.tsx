@@ -1,69 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, Pressable, Platform } from "react-native";
+import { View, Text, TextInput, Pressable } from "react-native";
 import { Icon } from "@rneui/themed";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../styles/LoginForm.styles";
-import axios, { formToJSON } from "axios";
-import { Link, router } from "expo-router";
+import axios from "axios";
+import { router } from "expo-router";
 import { Entypo } from '@expo/vector-icons';
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from 'expo-web-browser'
 import { useAuthStore } from "../auth/authStore";
-
-interface FacebookResponse {
-  type: string;
-  authentication?: {
-    accessToken: string;
-  };
-}
+import * as Linking from 'expo-linking';
 
 interface FacebookUserData {
   id: string;
-  email?: string;
   name: string;
 }
 
-interface YourComponentProps {
-  response: FacebookResponse;
-  setUser: (user: FacebookUserData) => void;
-}
 WebBrowser.maybeCompleteAuthSession()
 const LoginForm = () => {
   const [user, setUser] = useState<FacebookUserData | null>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: '266422566409025'
+    clientId: '266422566409025',
+    redirectUri: Linking.createURL('expo-auth-session', { scheme: 'tadaima' })
   })
 
   useEffect(() => {
-    if (response?.type === "success" && response.authentication?.accessToken) {
+    if (response && response.type === "success" && response.authentication) {
       (async () => {
-        if (response.authentication?.accessToken != null) {
-          try {
-            const url = `https://graph.facebook.com/v13.0/me?fields=id,email,name&access_token=${response.authentication.accessToken}`;
-            const respuestaFacebook = await axios.get<FacebookUserData>(url);
-            console.log(respuestaFacebook.data);
-            setUser(respuestaFacebook.data);
-          } catch (error) {
-            console.error('Error al obtener datos de Facebook:', error);
-            // Manejar el error adecuadamente
-          }
+        if (response.authentication) {
+
+          const userInfoResponse = await fetch(
+            `https://graph.facebook.com/me?access_token=${response.authentication.accessToken}&fields=id,name`
+          );
+          const userInfo = await userInfoResponse.json();
+          setUser(userInfo);
+          console.log(JSON.stringify(response, null, 2));
         }
       })();
     }
   }, [response]);
 
+
   const handleFb = async () => {
     const result = await promptAsync();
+
+    console.log(result)
     if (result.type !== "success") {
       alert('Something went wrong')
       return;
+    } else if (result.type == "success") {
+      const result = await axios.put('')
+      console.log(result)
+      router.replace('/student/');
     }
   }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const navigation = useNavigation();
 
   const onShowHidePassword = () => setShowPassword(!showPassword);
 
@@ -78,20 +71,19 @@ const LoginForm = () => {
           email: data.email,
           authToken: data.token,
           tipo_usuario: data.rol,
-          method: 'local'
+          method: 'local',
+          id_usuario: data.idUsuario,
+          name: data.name,
+          boleta: data.boleta
         });
-        useAuthStore.setState({ isAuthenticated: true });
 
         // Redirigir al usuario según su rol
         switch (data.rol) {
-          case 0:
+          case 1:
             router.replace('/administrator/');
             break;
-          case 1:
-            router.replace('/teacher/');
-            break;
           case 2:
-            router.replace('/student/');
+            router.replace('/teacher/');
             break;
         }
       }
@@ -104,8 +96,11 @@ const LoginForm = () => {
     }
   };
 
+  const auth = useAuthStore().isAuthenticated
+
   return (
     <View style={styles.content}>
+
       <View style={styles.box}>
         <TextInput
           style={styles.input}
@@ -146,7 +141,6 @@ const LoginForm = () => {
             <Entypo name="facebook" size={24} color="white" />
           </Pressable>
         </View>
-
       </View>
     </View>
   );

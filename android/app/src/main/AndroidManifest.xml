@@ -29,6 +29,7 @@
         <data android:scheme="fb266422566409025"/>
         <data android:scheme="com.anonymous.tadaima"/>
         <data android:scheme="exp+tadaima"/>
+        <data android:scheme="mycoolredirect"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

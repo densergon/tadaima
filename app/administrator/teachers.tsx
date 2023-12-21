@@ -1,28 +1,78 @@
-import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
+import ModalAddTeacher from '../../components/administrator/ModalAddTeacher';
+import axios from 'axios';
+import ModalEditTeacher from '../../components/administrator/ModalEditTeacher';
 
+interface Teacher {
+    nombre: string,
+    apellidoPaterno: string,
+    apellidoMaterno: string,
+    idUsuarios: number
+}
 const Page = () => {
+    const [teachers, setTeachers] = useState([]);
+    const [visible, setVisible] = useState(false);
+    const [visible2, setVisible2] = useState(false);
+    const [id, setId] = useState<number>(1)
+
+    const getTeachers = async () => {
+        const response = await axios.get('http://192.168.3.9:3000/api/teachers');
+        setTeachers(response.data)
+    }
+
+    const deleteTeacher = async (idUsuarios: number) => {
+        console.log(idUsuarios)
+        const result = await axios.delete('http://192.168.3.9:3000/api/teachers/' + idUsuarios)
+        if (result.data.status == 200) {
+            getTeachers()
+        }
+    }
+
+    useEffect(() => {
+        getTeachers()
+    }, []);
     return (
         <View>
+            <ModalAddTeacher visible={visible} onHide={() => setVisible(false)} getTeachers={() => getTeachers()} />
+            <ModalEditTeacher visible={visible2} onHide={() => setVisible2(false)} getTeachers={() => getTeachers()} id={id} />
             <View style={styles.btnContainer}>
-                <Pressable style={styles.btn}>
+                <Pressable style={styles.btn} onPress={() => setVisible(true)}>
                     <Text style={styles.txtBtn}>Dar de alta profesor</Text>
+                    <Entypo name="plus" size={24} color="white" />
                 </Pressable>
             </View>
             <ScrollView>
-                <View>
-                    <Text>Profesor A</Text>
-                </View>
-                <View>
-                    <Text>Profesor B</Text>
-                </View>
+                {teachers.map((teacher: Teacher, index) => (
+                    <View key={index}>
+                        <View style={styles.teacherBtn}>
+                            <Pressable>
+                                <Text style={styles.teacherTxtBtn}>{`${teacher.nombre} ${teacher.apellidoPaterno} ${teacher.apellidoMaterno}`}</Text>
+                            </Pressable>
+                            <View style={styles.span}>
+                                <Pressable style={styles.editBtn} onPress={() => {
+                                    setId(teacher.idUsuarios)
+                                    setVisible2(true)
+                                }}>
+                                    <Text style={styles.editTxtBtn}>Editar</Text>
+                                </Pressable>
+                                <Pressable style={styles.deleteBtn} onPress={() => {
+                                    deleteTeacher(teacher.idUsuarios)
+                                    getTeachers()
+                                }}>
+                                    <Text style={styles.deleteTxtBtn}>Eliminar</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </View>
+                ))}
             </ScrollView>
         </View>
-    )
-}
+    );
+};
 
-export default Page
-
+export default Page;
 const styles = StyleSheet.create({
     btnContainer: {
         display: 'flex',
@@ -35,10 +85,43 @@ const styles = StyleSheet.create({
         width: 200,
         padding: 10,
         borderRadius: 10,
-        margin: 10
+        margin: 10,
+        flexDirection: 'row',
+        gap: 5,
     },
     txtBtn: {
         color: 'white',
         fontSize: 18
+    },
+    teacherBtn: {
+        backgroundColor: 'white',
+        padding: 10,
+        margin: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    teacherTxtBtn: {
+        fontSize: 18
+    },
+    editBtn: {
+        backgroundColor: '#f1c40f',
+        padding: 5
+    },
+    editTxtBtn: {
+        fontSize: 16,
+        fontWeight: '500'
+    },
+    deleteBtn: {
+        backgroundColor: '#e74c3c',
+        padding: 5
+    },
+    deleteTxtBtn: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: 'white'
+    },
+    span: {
+        flexDirection: 'row',
+        gap: 5
     }
 })

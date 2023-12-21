@@ -8,14 +8,20 @@ const _layout = () => {
             <Drawer.Screen
                 name="index" // This is the name of the page and must match the url from root
                 options={{
-                    drawerLabel: 'Home',
-                    title: '',
+                    drawerLabel: 'Inicio',
+                    title: 'Inicio',
                 }} />
             <Drawer.Screen
                 name="teachers" // This is the name of the page and must match the url from root
                 options={{
                     drawerLabel: 'Profesores',
                     title: 'Profesores',
+                }} />
+            <Drawer.Screen
+                name="manageClasses" // This is the name of the page and must match the url from root
+                options={{
+                    drawerLabel: 'Clases',
+                    title: 'Clases',
                 }} />
         </Drawer>
     )

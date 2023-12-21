@@ -21,7 +21,7 @@ interface AuthState {
 
 const Page = () => {
 
-    const isAuth = useAuthStore.getState().isAuthenticated;
+    const isAuth = useAuthStore().isAuthenticated;
 
     return (
         <>

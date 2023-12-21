@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import axios from 'axios';
 import { useAuthStore } from '../../components/auth/authStore';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 interface Clase {
     profesor: number,
@@ -30,13 +30,17 @@ const Page = () => {
         fetchClases();
     }, []);
 
+    const redirect = (id: number) => {
+        //router.push({ pathname: { '/teacher/class/[id]'}, params: { id: id } });
+    }
+
     return (
         <ScrollView>
             <View>
                 {clases.map((clase: Clase) => (
-                    <View style={style.class} key={clase.idClases}>
+                    <Pressable style={style.class} key={clase.idClases} onPress={() => redirect(clase.idClases)}>
                         <Text style={style.p}>{clase.asignatura}</Text>
-                    </View>
+                    </Pressable>
                 ))}
             </View>
         </ScrollView>

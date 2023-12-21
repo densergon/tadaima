@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, View, Pressable, TextInput, Alert, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
-import { Picker } from '@react-native-picker/picker';
-
 
 interface ModalProps {
     visible: boolean,
@@ -81,20 +79,7 @@ const ModalAddClass = ({ visible, onHide, getClasses }: ModalProps) => {
                         </View>
                         <Text style={styles.h1}>Registro de clase</Text>
                         <TextInput style={styles.txtIpt} placeholder='Nombre' onChangeText={setNombre} />
-                        <Picker
-                            selectedValue={profesor}
-                            onValueChange={(itemValue) => setProfesor(itemValue)}
-                        >
-                            {teachers.map((teacher: Teacher) => {
-                                return (
-                                    <Picker.Item
-                                        key={teacher.idUsuarios}
-                                        label={`${teacher.nombre} ${teacher.apellidoPaterno} ${teacher.apellidoMaterno}`}
-                                        value={teacher.idUsuarios}
-                                    />
-                                );
-                            })}
-                        </Picker>
+
 
                         <Pressable style={styles.addBtn} onPress={handleSubmit}>
                             <Text style={styles.addTxtBtn}>Agregar Clase</Text>

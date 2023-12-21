@@ -14,7 +14,7 @@ const LoginPage = () => {
         return (
             <div style={{ width: "100%", height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <FacebookProvider appId={facebookAppId}>
-                    <Page href={pageUrl} tabs="timeline" width="3920" height='1000' style={{ width: "100%", height: '100vh' }} />
+                    <Page href={pageUrl} tabs="timeline" style={{ width: "100%", height: '100vh' }} />
                 </FacebookProvider>
             </div>
 

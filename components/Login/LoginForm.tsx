@@ -7,9 +7,10 @@ import axios from "axios";
 import { router } from "expo-router";
 import { Entypo } from '@expo/vector-icons';
 import * as Facebook from "expo-auth-session/providers/facebook";
+import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser'
 import { useAuthStore } from "../auth/authStore";
-import * as Linking from 'expo-linking';
+import * as Linking from 'expo-linking'
 
 interface FacebookUserData {
   id: string;
@@ -17,11 +18,17 @@ interface FacebookUserData {
 }
 
 WebBrowser.maybeCompleteAuthSession()
+
 const LoginForm = () => {
+  const redirectUri = AuthSession.makeRedirectUri({
+    scheme: 'tadaima',
+    path: '/student/',
+    preferLocalhost: true,
+  });
   const [user, setUser] = useState<FacebookUserData | null>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
     clientId: '266422566409025',
-    redirectUri: Linking.createURL('expo-auth-session', { scheme: 'tadaima' })
+    redirectUri: redirectUri
   })
 
   useEffect(() => {
@@ -42,16 +49,15 @@ const LoginForm = () => {
 
 
   const handleFb = async () => {
-    const result = await promptAsync();
+    const result = await promptAsync();;
 
     console.log(result)
     if (result.type !== "success") {
       alert('Something went wrong')
       return;
     } else if (result.type == "success") {
-      const result = await axios.put('')
-      console.log(result)
-      router.replace('/student/');
+      const { access_token } = result.params;
+      console.log(access_token)
     }
   }
   const [email, setEmail] = useState('');

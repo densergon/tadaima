@@ -28,6 +28,12 @@ const _layout = () => {
                     drawerLabel: 'Chat',
                     title: 'Chat',
                 }} />
+            <Drawer.Screen
+                name="class" // This is the name of the page and must match the url from root
+                options={{
+                    drawerLabel: 'Chat',
+                    title: 'Chat',
+                }} />
         </Drawer>
     )
 }

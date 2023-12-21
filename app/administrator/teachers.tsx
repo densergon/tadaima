@@ -15,7 +15,7 @@ const Page = () => {
     const [teachers, setTeachers] = useState([]);
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
-    const [id, setId] = useState<number>(1)
+    const [id, setId] = useState<number | null>(null)
 
     const getTeachers = async () => {
         const response = await axios.get('http://192.168.3.9:3000/api/teachers');

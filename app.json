@@ -6,8 +6,8 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": [
-      "tadaima",
-      "fb266422566409025"
+      "fb266422566409025",
+      "tadaima"
     ],
     "userInterfaceStyle": "automatic",
     "splash": {

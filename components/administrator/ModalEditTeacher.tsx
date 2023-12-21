@@ -6,7 +6,7 @@ interface ModalProps {
     visible: boolean,
     onHide: () => void,
     getTeachers: () => void,
-    id: number
+    id: number | null
 }
 const ModalEditTeacher = ({ visible, onHide, getTeachers, id }: ModalProps) => {
     const [nombre, setNombre] = useState('');
@@ -22,7 +22,7 @@ const ModalEditTeacher = ({ visible, onHide, getTeachers, id }: ModalProps) => {
         correoElectronico,
     }
     useEffect(() => {
-        if (id) {
+        if (id != null) {
             fetch(`http://192.168.3.9:3000/api/teachers/${id}`)
                 .then(response => response.json())
                 .then(data => {
@@ -37,7 +37,7 @@ const ModalEditTeacher = ({ visible, onHide, getTeachers, id }: ModalProps) => {
                     Alert.alert('Error', 'No se pudo cargar la información del profesor');
                 });
         }
-    }, [id]); // Incluye 'id' en la lista de dependencias
+    }, [id]);
 
 
     const handleSubmit = async () => {

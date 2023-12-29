@@ -23,7 +23,7 @@ const Account = () => {
     const userId = useAuthStore().user?.id_usuario;
 
     useEffect(() => {
-        fetch(`http://192.168.3.9:3000/api/students/${userId}`)
+        fetch(`http://192.168.3.19:3000/api/students/${userId}`)
             .then(response => response.json())
             .then(data => {
                 setUser(data);

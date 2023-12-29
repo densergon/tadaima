@@ -19,7 +19,7 @@ const Page = () => {
     useEffect(() => {
         const fetchClases = async () => {
             try {
-                const response = await axios.get('http://192.168.3.9:3000/api/classes');
+                const response = await axios.get('http://192.168.3.19:3000/api/classes');
                 const clasesDelProfesor = response.data.filter((clase: Clase) => clase.profesor === idProfesor);
                 setClases(clasesDelProfesor);
             } catch (error) {

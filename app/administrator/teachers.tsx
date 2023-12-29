@@ -4,6 +4,8 @@ import { Entypo } from '@expo/vector-icons';
 import ModalAddTeacher from '../../components/administrator/ModalAddTeacher';
 import axios from 'axios';
 import ModalEditTeacher from '../../components/administrator/ModalEditTeacher';
+import { useIsFocused } from '@react-navigation/native';
+
 
 interface Teacher {
     nombre: string,
@@ -15,24 +17,25 @@ const Page = () => {
     const [teachers, setTeachers] = useState([]);
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
-    const [id, setId] = useState<number | null>(null)
+    const [id, setId] = useState<number | null>(null);
+    const isFocused = useIsFocused();
+
 
     const getTeachers = async () => {
-        const response = await axios.get('http://192.168.3.9:3000/api/teachers');
+        const response = await axios.get('http://192.168.3.19:3000/api/teachers');
         setTeachers(response.data)
     }
 
     const deleteTeacher = async (idUsuarios: number) => {
-        console.log(idUsuarios)
-        const result = await axios.delete('http://192.168.3.9:3000/api/teachers/' + idUsuarios)
-        if (result.data.status == 200) {
-            getTeachers()
-        }
+        const result = await axios.delete('http://192.168.3.19:3000/api/teachers/' + idUsuarios)
+
     }
 
     useEffect(() => {
-        getTeachers()
-    }, []);
+        if (isFocused) {
+            getTeachers()
+        }
+    }, [isFocused]);
     return (
         <View>
             <ModalAddTeacher visible={visible} onHide={() => setVisible(false)} getTeachers={() => getTeachers()} />

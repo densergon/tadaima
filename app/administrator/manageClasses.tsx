@@ -20,13 +20,13 @@ const Page = () => {
     const [id, setId] = useState<number | null>(null)
 
     const getClasses = async () => {
-        const response = await axios.get('http://192.168.3.9:3000/api/classes');
+        const response = await axios.get('http://192.168.3.19:3000/api/classes');
         setClasses(response.data)
     }
 
     const deleteClase = async (idClases: number) => {
         console.log(idClases)
-        const result = await axios.delete('http://192.168.3.9:3000/api/classes/' + idClases)
+        const result = await axios.delete('http://192.168.3.19:3000/api/classes/' + idClases)
         if (result.data.status == 200) {
             getClasses()
         }

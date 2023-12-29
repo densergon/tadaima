@@ -19,7 +19,7 @@ const ModalAddClass = ({ visible, onHide, getClasses }: ModalProps) => {
     const [nombre, setNombre] = useState('');
     const [profesor, setProfesor] = useState<number>(0);
     const getTeachers = async () => {
-        const response = await axios.get('http://192.168.3.9:3000/api/teachers');
+        const response = await axios.get('http://192.168.3.19:3000/api/teachers');
         console.log(response.data)
         setTeachers(response.data)
     }
@@ -41,7 +41,7 @@ const ModalAddClass = ({ visible, onHide, getClasses }: ModalProps) => {
 
         try {
             console.log(classData)
-            const response = await fetch('http://192.168.3.9:3000/api/classes', {
+            const response = await fetch('http://192.168.3.19:3000/api/classes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

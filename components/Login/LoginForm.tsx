@@ -4,7 +4,7 @@ import { Icon } from "@rneui/themed";
 import Toast from "react-native-toast-message";
 import { styles } from "../../styles/LoginForm.styles";
 import axios from "axios";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { Entypo } from '@expo/vector-icons';
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as AuthSession from 'expo-auth-session';
@@ -68,7 +68,7 @@ const LoginForm = () => {
 
   const onSubmit = async () => {
     try {
-      const { data } = await axios.post("http://192.168.3.9:3000/api/auth", { email, password });
+      const { data } = await axios.post("http://192.168.3.19:3000/api/auth", { email, password });
 
       // Si la autenticación es exitosa y recibimos un token del backend
       if (data.token) {
@@ -135,12 +135,13 @@ const LoginForm = () => {
       </View>
 
       <View style={styles.btnContainer}>
-        <Pressable
-          style={styles.btn}
-          onPress={onSubmit}
-        >
-          <Text style={styles.txtBtn}>Iniciar Sesion</Text>
-        </Pressable>
+        <Link href={'/administrator/'} asChild>
+          <Pressable
+            style={styles.btn}
+          >
+            <Text style={styles.txtBtn}>Iniciar Sesion</Text>
+          </Pressable>
+        </Link>
         <View style={styles.btnContainer}>
           <Pressable style={styles.fbBtn} onPress={handleFb}>
             <Text style={styles.fbTxt}>Iniciar Sesión con Facebook</Text>

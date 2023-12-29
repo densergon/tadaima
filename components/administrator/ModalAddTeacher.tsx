@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, StyleSheet, Text, View, Pressable, TextInput, Alert, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import axios from 'axios';
 
 interface ModalProps {
     visible: boolean,
@@ -11,7 +12,7 @@ const ModalAddTeacher = ({ visible, onHide, getTeachers }: ModalProps) => {
     const [nombre, setNombre] = useState('');
     const [apellidoPaterno, setApellidoPaterno] = useState('');
     const [apellidoMaterno, setApellidoMaterno] = useState('');
-    const [correoElectronico, setCorreoElectronico] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [verifyPassword, setVerifyPassword] = useState('');
 
@@ -25,21 +26,14 @@ const ModalAddTeacher = ({ visible, onHide, getTeachers }: ModalProps) => {
             nombre,
             apellidoPaterno,
             apellidoMaterno,
-            correoElectronico,
+            email,
             password,
         };
 
         try {
             console.log(teacherData)
-            const response = await fetch('http://192.168.3.9:3000/api/teachers', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(teacherData),
-            });
-            const data = await response.json();
-            if (data.message === 'Usuario registrado') {
+            const response = await axios.post('http://192.168.3.19:3000/api/teachers', teacherData);
+            if (response.data.message === 'Usuario registrado') {
                 Alert.alert('Exito', 'Profesor registrado correctamente');
                 getTeachers()
                 onHide(); // Cerrar el modal después de un registro exitoso
@@ -71,7 +65,7 @@ const ModalAddTeacher = ({ visible, onHide, getTeachers }: ModalProps) => {
                         <TextInput style={styles.txtIpt} placeholder='Nombre' onChangeText={setNombre} />
                         <TextInput style={styles.txtIpt} placeholder='Apellido Paterno' onChangeText={setApellidoPaterno} />
                         <TextInput style={styles.txtIpt} placeholder='Apellido Materno' onChangeText={setApellidoMaterno} />
-                        <TextInput style={styles.txtIpt} placeholder='Correo Electronico' onChangeText={setCorreoElectronico} />
+                        <TextInput style={styles.txtIpt} placeholder='Correo Electronico' onChangeText={setEmail} />
                         <TextInput style={styles.txtIpt} placeholder='Contraseña' onChangeText={setPassword} secureTextEntry />
                         <TextInput style={styles.txtIpt} placeholder='Verificar Contraseña' onChangeText={setVerifyPassword} secureTextEntry />
                         <Pressable style={styles.addBtn} onPress={handleSubmit}>

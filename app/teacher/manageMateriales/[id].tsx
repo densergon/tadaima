@@ -8,9 +8,7 @@ import AWS from 'aws-sdk';
 import DocumentPicker from 'react-native-document-picker'
 
 AWS.config.update({
-    accessKeyId: 'AKIAVLK4GWAQNUPFWUWE',
-    secretAccessKey: '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',
-    region: 'us-west-1'
+
 })
 /**
  * Funcion que convierte un archivo de una url a blob (binario)

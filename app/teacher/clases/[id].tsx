@@ -1,49 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import axios from 'axios';
-import { useLocalSearchParams } from 'expo-router';
-interface Tarea {
-    idTareas: number,
-    nombre: string,
-    descripcion: string,
-    fechaInicio: null,
-    fechaEntrega: null,
-    idClase: number,
-    prioridad: number
+import { Link, useLocalSearchParams } from 'expo-router';
+import { StyleSheet } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+
+interface Curso {
+    curso: string,
+    idCurso: number
 }
 const Page = () => {
-    const [tareas, setTareas] = useState([]);
-    const { id } = useLocalSearchParams(); // Cambia esto al ID de la clase que deseas
+    const focused = useIsFocused()
+    const { id } = useLocalSearchParams();
+    const [curso, setCurso] = useState<Curso | null>(null);
+
+    const getClass = async () => {
+        try {
+            const result = await axios.get(`http://192.168.3.9:3000/api/classes/one/${id}`)
+            setCurso(result.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
-        const fetchTareas = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/api/homeworks/clase/${id}`);
-                setTareas(response.data);
-            } catch (error) {
-                console.error('Error al obtener las tareas:', error);
-            }
-        };
-
-        fetchTareas();
-    }, [id]);
+        getClass()
+    }, [focused])
 
     return (
         <ScrollView>
             <View>
-                <Text>Tareas de la Clase</Text>
-                {tareas.map((tarea: Tarea) => (
-                    <View key={tarea.idTareas}>
-                        <Text>Nombre: {tarea.nombre}</Text>
-                        <Text>Descripción: {tarea.descripcion}</Text>
-                        <Text>Fecha de Inicio: {tarea.fechaInicio || 'No especificado'}</Text>
-                        <Text>Fecha de Entrega: {tarea.fechaEntrega || 'No especificado'}</Text>
-                        <Text>Prioridad: {tarea.prioridad}</Text>
-                    </View>
-                ))}
+                {curso ? <Text style={styles.clase}>{curso.curso}</Text> : <Text></Text>}
+                <Link href={{
+                    pathname: "/teacher/manageMateriales/[id]",
+                    params: { id: Number(id) }
+                }} asChild>
+                    <Pressable style={styles.btn}>
+                        <Text style={styles.btnTxt}>Materiales</Text>
+                    </Pressable>
+                </Link>
+                <Link href={{
+                    pathname: "/teacher/manageHomeworks/[id]",
+                    params: { id: Number(id) }
+                }} asChild>
+                    <Pressable style={styles.btn}>
+                        <Text style={styles.btnTxt}>Tareas</Text>
+                    </Pressable>
+                </Link>
             </View>
         </ScrollView>
     );
 };
 
 export default Page;
+
+const styles = StyleSheet.create({
+    clase: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 20
+    },
+    btn: {
+        backgroundColor: '#3498db',
+        padding: 10,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    btnTxt: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'white'
+    }
+})

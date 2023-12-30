@@ -11,6 +11,12 @@ const _layout = () => {
                     title: '',
                 }} />
             <Drawer.Screen
+                name="mycourses" // This is the name of the page and must match the url from root
+                options={{
+                    drawerLabel: 'Mis cursos',
+                    title: 'Mis cursos',
+                }} />
+            <Drawer.Screen
                 name="homeworks" // This is the name of the page and must match the url from root
                 options={{
                     drawerLabel: 'Tareas',
@@ -21,6 +27,21 @@ const _layout = () => {
                 options={{
                     drawerLabel: 'Chats',
                     title: 'Chats',
+                }} />
+            <Drawer.Screen
+                name="homework" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    }
+                }} />
+            <Drawer.Screen
+                name="courses/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
                 }} />
         </Drawer>
     )

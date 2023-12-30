@@ -7,41 +7,58 @@ import axios from "axios";
 import { Link, router } from "expo-router";
 import { Entypo } from '@expo/vector-icons';
 import * as Facebook from "expo-auth-session/providers/facebook";
-import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser'
+import * as AuthSession from "expo-auth-session";
 import { useAuthStore } from "../auth/authStore";
-import * as Linking from 'expo-linking'
+
 
 interface FacebookUserData {
   id: string;
   name: string;
 }
 
-WebBrowser.maybeCompleteAuthSession()
+WebBrowser.maybeCompleteAuthSession();
+
+
 
 const LoginForm = () => {
-  const redirectUri = AuthSession.makeRedirectUri({
-    scheme: 'tadaima',
-    path: '/student/',
-    preferLocalhost: true,
-  });
   const [user, setUser] = useState<FacebookUserData | null>(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: '266422566409025',
-    redirectUri: redirectUri
+    clientId: '266422566409025'
   })
 
   useEffect(() => {
     if (response && response.type === "success" && response.authentication) {
       (async () => {
         if (response.authentication) {
-
           const userInfoResponse = await fetch(
-            `https://graph.facebook.com/me?access_token=${response.authentication.accessToken}&fields=id,name`
+            `https://graph.facebook.com/me?access_token=${response.authentication.accessToken}&fields=id,name,email`
           );
           const userInfo = await userInfoResponse.json();
-          setUser(userInfo);
-          console.log(JSON.stringify(response, null, 2));
+          const userAccessData = {
+            token: response.authentication.accessToken,
+            id: userInfo.id,
+            name: userInfo.name,
+            email: userInfo.email
+          }
+          const result = await axios.post("http://192.168.3.9:3000/api/auth/facebook", userAccessData);
+          console.log(userAccessData)
+          if (result.status == 200) {
+            const data = result.data;
+            if (result.data.token) {
+              // Actualizar el estado global usando Zustand
+              useAuthStore.getState().login({
+                email: data.email,
+                authToken: data.token,
+                tipo_usuario: data.rol,
+                id_usuario: data.idUsuario,
+                name: data.name
+              });
+
+
+            }
+          }
+
         }
       })();
     }
@@ -49,15 +66,12 @@ const LoginForm = () => {
 
 
   const handleFb = async () => {
-    const result = await promptAsync();;
+    const result = await promptAsync();
 
     console.log(result)
     if (result.type !== "success") {
       alert('Something went wrong')
       return;
-    } else if (result.type == "success") {
-      const { access_token } = result.params;
-      console.log(access_token)
     }
   }
   const [email, setEmail] = useState('');
@@ -68,8 +82,7 @@ const LoginForm = () => {
 
   const onSubmit = async () => {
     try {
-      const { data } = await axios.post("http://192.168.3.19:3000/api/auth", { email, password });
-
+      const { data } = await axios.post("http://192.168.3.9:3000/api/auth/custom", { email, password });
       // Si la autenticación es exitosa y recibimos un token del backend
       if (data.token) {
         // Actualizar el estado global usando Zustand
@@ -77,21 +90,11 @@ const LoginForm = () => {
           email: data.email,
           authToken: data.token,
           tipo_usuario: data.rol,
-          method: 'local',
           id_usuario: data.idUsuario,
-          name: data.name,
-          boleta: data.boleta
+          name: data.name
         });
 
-        // Redirigir al usuario según su rol
-        switch (data.rol) {
-          case 1:
-            router.replace('/administrator/');
-            break;
-          case 2:
-            router.replace('/teacher/');
-            break;
-        }
+
       }
     } catch (error) {
       Toast.show({
@@ -103,6 +106,24 @@ const LoginForm = () => {
   };
 
   const auth = useAuthStore().isAuthenticated
+  const userAuth = useAuthStore().user;
+
+  useEffect(() => {
+    if (auth) {
+      // Redirigir al usuario según su rol
+      switch (userAuth?.tipo_usuario) {
+        case 1:
+          router.replace('/administrator/');
+          break;
+        case 2:
+          router.replace('/teacher/');
+          break;
+        case 3:
+          router.replace('/student/');
+          break;
+      }
+    }
+  }, [auth])
 
   return (
     <View style={styles.content}>
@@ -135,13 +156,12 @@ const LoginForm = () => {
       </View>
 
       <View style={styles.btnContainer}>
-        <Link href={'/administrator/'} asChild>
-          <Pressable
-            style={styles.btn}
-          >
-            <Text style={styles.txtBtn}>Iniciar Sesion</Text>
-          </Pressable>
-        </Link>
+        <Pressable
+          style={styles.btn}
+          onPress={onSubmit}
+        >
+          <Text style={styles.txtBtn}>Iniciar Sesion</Text>
+        </Pressable>
         <View style={styles.btnContainer}>
           <Pressable style={styles.fbBtn} onPress={handleFb}>
             <Text style={styles.fbTxt}>Iniciar Sesión con Facebook</Text>

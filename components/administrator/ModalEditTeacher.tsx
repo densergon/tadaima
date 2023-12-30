@@ -23,7 +23,7 @@ const ModalEditTeacher = ({ visible, onHide, getTeachers, id }: ModalProps) => {
     }
     useEffect(() => {
         if (id != null) {
-            fetch(`http://192.168.3.19:3000/api/teachers/${id}`)
+            fetch(`http://192.168.3.9:3000/api/teachers/${id}`)
                 .then(response => response.json())
                 .then(data => {
                     setNombre(data.nombre);
@@ -55,7 +55,7 @@ const ModalEditTeacher = ({ visible, onHide, getTeachers, id }: ModalProps) => {
         };
 
         try {
-            const response = await fetch('http://192.168.3.19:3000/api/teachers/' + id, {
+            const response = await fetch('http://192.168.3.9:3000/api/teachers/' + id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

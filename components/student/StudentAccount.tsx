@@ -1,38 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
-import { styles } from '../styles/Account.styles';
+import { styles } from '../../styles/Account.styles';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
-import { useAuthStore } from './auth/authStore';
+import { useAuthStore } from '../auth/authStore';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import ModalBoleta from './ModalBoleta';
 interface User {
-    email: string;
-    authToken: string;
-    tipo_usuario: number;
-    method: string
-    id_usuario: number,
-    name: string,
-    boleta: number | null
+    nombre: string,
+    boleta: string | null,
+    email: string
 }
 
 
 const Account = () => {
     const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
     const userId = useAuthStore().user?.id_usuario;
+    const [visible, setVisible] = useState(false);
 
-    useEffect(() => {
-        fetch(`http://192.168.3.19:3000/api/students/${userId}`)
+    const getData = async () => {
+        await fetch(`http://192.168.3.9:3000/api/students/${userId}`)
             .then(response => response.json())
             .then(data => {
                 setUser(data);
-                setIsLoading(false);
+                if (data.boleta == null) {
+                    setVisible(true)
+                }
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
-                setIsLoading(false);
             });
+    }
+
+    useEffect(() => {
+        getData()
     }, [userId]);
 
 
@@ -51,41 +53,30 @@ const Account = () => {
         }
     };
 
-    if (isLoading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    }
     return (
         <View style={{ marginTop: Constants.statusBarHeight }}>
             <StatusBar style='dark' />
+            <ModalBoleta visible={visible} onHide={() => setVisible(false)} getData={getData} />
             <View style={styles.container} >
                 <View style={styles.header}>
                     <Pressable style={styles.icon} onPress={goBack}>
                         <Ionicons name="arrow-back" size={24} color="black" />
                     </Pressable>
-                    <Text style={styles.h1}>Mis datos</Text>
+                    <Text style={styles.h1}>Mis datos alumno</Text>
                 </View>
                 <View style={styles.dataContainer}>
                     <View style={styles.dataContainer}>
                         <View style={styles.box}>
                             <Text style={styles.p}>Nombre:</Text>
-                            {user ? <Text style={styles.p}>{user?.name}</Text> : <Text></Text>}
+                            {user ? <Text style={styles.p}>{user?.nombre}</Text> : <Text></Text>}
                         </View>
                         <View style={styles.box}>
                             <Text style={styles.p}>Boleta:</Text>
-
-                            {
-                                /* 
-                                   <Text style={styles.p}>{user?.boleta}</Text>
-                              */
-                            }
+                            {user ? <Text style={styles.p}>{user?.boleta}</Text> : <Text></Text>}
                         </View>
                         <View style={styles.box}>
                             <Text style={styles.p}>Email:</Text>
-                            {
-                                /*
-                                <Text style={styles.p}>{user?.email}</Text>
-                                */
-                            }
+                            {user ? <Text style={styles.p}>{user?.email}</Text> : <Text></Text>}
                         </View>
                     </View>
 

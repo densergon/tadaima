@@ -2,45 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import axios from 'axios';
 import { useAuthStore } from '../../components/auth/authStore';
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
+import { useIsFocused } from '@react-navigation/native';
 
 interface Clase {
-    profesor: number,
-    idClases: number,
-    asignatura: string,
-    nombre: string,
-    apellidoPaterno: string,
-    apellidoMaterno: string
+    curso: string,
+    idCurso: number
 }
 const Page = () => {
-    const [clases, setClases] = useState([]);
+    const [clases, setClases] = useState<Clase[]>([]);
     const idProfesor = useAuthStore.getState().user?.id_usuario;
+    const focused = useIsFocused()
+    const fetchClases = async () => {
+        try {
+            const response = await axios.get(`http://192.168.3.9:3000/api/classes/all/${idProfesor}`);
+            console.log(response.data)
+            setClases(response.data);
+        } catch (error) {
+            console.error('Error al obtener las clases:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchClases = async () => {
-            try {
-                const response = await axios.get('http://192.168.3.19:3000/api/classes');
-                const clasesDelProfesor = response.data.filter((clase: Clase) => clase.profesor === idProfesor);
-                setClases(clasesDelProfesor);
-            } catch (error) {
-                console.error('Error al obtener las clases:', error);
-            }
-        };
-
         fetchClases();
-    }, []);
+    }, [focused]);
 
-    const redirect = (id: number) => {
-        //router.push({ pathname: { '/teacher/class/[id]'}, params: { id: id } });
-    }
 
     return (
         <ScrollView>
             <View>
                 {clases.map((clase: Clase) => (
-                    <Pressable style={style.class} key={clase.idClases} onPress={() => redirect(clase.idClases)}>
-                        <Text style={style.p}>{clase.asignatura}</Text>
-                    </Pressable>
+                    <Link href={{
+                        pathname: "/teacher/clases/[id]",
+                        params: { id: clase.idCurso }
+                    }} asChild key={clase.idCurso}>
+                        <Pressable style={style.class}  >
+                            <Text style={style.p}>{clase.curso}</Text>
+                        </Pressable>
+                    </Link>
                 ))}
             </View>
         </ScrollView>
@@ -55,6 +54,6 @@ const style = StyleSheet.create({
         padding: 10,
     },
     p: {
-        fontSize: 18
+        fontSize: 20
     }
 })

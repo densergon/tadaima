@@ -4,10 +4,8 @@ interface User {
     email: string;
     authToken: string;
     tipo_usuario: number;
-    method: string
     id_usuario: number,
     name: string,
-    boleta: number | null
 }
 
 

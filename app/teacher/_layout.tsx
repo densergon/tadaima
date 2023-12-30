@@ -11,12 +11,6 @@ const _layout = () => {
                     title: '',
                 }} />
             <Drawer.Screen
-                name="manageHomeworks" // This is the name of the page and must match the url from root
-                options={{
-                    drawerLabel: 'Tareas',
-                    title: 'Tareas',
-                }} />
-            <Drawer.Screen
                 name="manageClasses" // This is the name of the page and must match the url from root
                 options={{
                     drawerLabel: 'Clases',
@@ -29,11 +23,32 @@ const _layout = () => {
                     title: 'Chat',
                 }} />
             <Drawer.Screen
-                name="class" // This is the name of the page and must match the url from root
+                name="clases/[id]" // This is the name of the page and must match the url from root
                 options={{
-                    drawerLabel: 'Chat',
-                    title: 'Chat',
-                }} />
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }}
+            />
+            <Drawer.Screen
+                name="manageHomeworks/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }}
+            />
+            <Drawer.Screen
+                name="manageMateriales/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }}
+            />
         </Drawer>
     )
 }

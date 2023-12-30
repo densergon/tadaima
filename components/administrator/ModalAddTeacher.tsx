@@ -32,7 +32,7 @@ const ModalAddTeacher = ({ visible, onHide, getTeachers }: ModalProps) => {
 
         try {
             console.log(teacherData)
-            const response = await axios.post('http://192.168.3.19:3000/api/teachers', teacherData);
+            const response = await axios.post('http://192.168.3.9:3000/api/teachers', teacherData);
             if (response.data.message === 'Usuario registrado') {
                 Alert.alert('Exito', 'Profesor registrado correctamente');
                 getTeachers()

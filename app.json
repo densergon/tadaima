@@ -5,7 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "fb266422566409025",
+    "scheme": [
+      "tadaima",
+      "fb266422566409025"
+    ],
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",

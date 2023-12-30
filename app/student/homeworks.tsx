@@ -15,6 +15,7 @@ const Page = () => {
                         </View>
                         <View style={{ width: 150 }}>
                             <Text style={styles.homeworkTitle}>Titulo 1</Text>
+                            <Text style={styles.homeworkTitle}>Curso</Text>
                             <View style={styles.badgeWarning}>
                                 <Text style={styles.badgeTxt}>Importante</Text>
                             </View>
@@ -28,6 +29,7 @@ const Page = () => {
                         </View>
                         <View style={{ width: 150 }}>
                             <Text style={styles.homeworkTitle}>Titulo 2</Text>
+                            <Text style={styles.homeworkTitle}>Curso</Text>
                             <View style={styles.badgeNormal}>
                                 <Text style={styles.badgeTxt}>No Importante</Text>
                             </View>
@@ -44,9 +46,7 @@ const Page = () => {
                         </View>
                         <View style={{ width: 150 }}>
                             <Text style={styles.homeworkTitle}>Titulo 3</Text>
-                            <View style={styles.badgeDanger}>
-                                <Text style={styles.badgeTxtLight}>Urgente</Text>
-                            </View>
+                            <Text style={styles.homeworkTitle}>Curso</Text>
                         </View>
                     </Pressable>
                 </View>
@@ -57,9 +57,7 @@ const Page = () => {
                         </View>
                         <View style={{ width: 150 }}>
                             <Text style={styles.homeworkTitle}>Titulo 3</Text>
-                            <View style={styles.badgeNormal}>
-                                <Text style={styles.badgeTxtLight}>No importante</Text>
-                            </View>
+                            <Text style={styles.homeworkTitle}>Curso</Text>
                         </View>
                     </Pressable>
                 </View>
@@ -70,9 +68,7 @@ const Page = () => {
                         </View>
                         <View style={{ width: 150 }}>
                             <Text style={styles.homeworkTitle}>Titulo 4</Text>
-                            <View style={styles.badgeDanger}>
-                                <Text style={styles.badgeTxtLight}>Urgente</Text>
-                            </View>
+                            <Text style={styles.homeworkTitle}>Curso</Text>
                         </View>
                     </Pressable>
                 </View>
@@ -83,9 +79,7 @@ const Page = () => {
                         </View>
                         <View style={{ width: 150 }}>
                             <Text style={styles.homeworkTitle}>Titulo 5</Text>
-                            <View style={styles.badgeNormal}>
-                                <Text style={styles.badgeTxtLight}>No importante</Text>
-                            </View>
+                            <Text style={styles.homeworkTitle}>Curso</Text>
                         </View>
                     </Pressable>
                 </View>

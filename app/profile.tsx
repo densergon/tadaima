@@ -1,34 +1,33 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import LoginScreen from '../components/Login/Login'
-import { StatusBar } from 'expo-status-bar'
-import Account from '../components/Account'
-import { useAuthStore } from '../components/auth/authStore'
-
-interface User {
-    email: string;
-    authToken: string;
-    tipo_usuario: number;
-    method: string
-}
-
-interface AuthState {
-    isAuthenticated: boolean;
-    user: User | null;
-    login: (userData: User) => void;
-    logout: () => void;
-}
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import LoginScreen from '../components/Login/Login';
+import AdminAccount from '../components/administrator/AdminAccount';
+import TeacherAccount from '../components/teacher/TeacherAccount';
+import StudentAccount from '../components/student/StudentAccount';
+import { useAuthStore } from '../components/auth/authStore';
 
 const Page = () => {
+    const { isAuthenticated, user } = useAuthStore();
 
-    const isAuth = useAuthStore().isAuthenticated;
+    const renderAccountScreen = () => {
+        switch (user?.tipo_usuario) {
+            case 1: // Rol de Administrador
+                return <AdminAccount />;
+            case 2: // Rol de Docente
+                return <TeacherAccount />;
+            case 3: // Rol de Estudiante
+                return <StudentAccount />;
+            default:
+                return null;
+        }
+    };
 
     return (
         <>
             <StatusBar style="light" />
-            {isAuth ? <Account /> : <LoginScreen />}
+            {isAuthenticated ? renderAccountScreen() : <LoginScreen />}
         </>
     );
-}
+};
 
-export default Page
+export default Page;

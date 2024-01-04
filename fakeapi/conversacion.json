@@ -1,0 +1,56 @@
+[
+    {
+        "idUsuario": "5",
+        "paraUsuario": "3",
+        "fecha": "2024-01-03 12:55:30",
+        "mensaje": "¿Puedes ayudarme con la tarea?"
+    },
+    {
+        "idUsuario": "3",
+        "paraUsuario": "5",
+        "fecha": "2024-01-03 12:56:30",
+        "mensaje": "Claro, ¿cuál es tu duda?"
+    },
+    {
+        "idUsuario": "5",
+        "paraUsuario": "3",
+        "fecha": "2024-01-03 12:57:30",
+        "mensaje": "Tengo problemas con el ejercicio 3"
+    },
+    {
+        "idUsuario": "3",
+        "paraUsuario": "5",
+        "fecha": "2024-01-03 12:58:30",
+        "mensaje": "El ejercicio 3 trata sobre ecuaciones lineales"
+    },
+    {
+        "idUsuario": "5",
+        "paraUsuario": "3",
+        "fecha": "2024-01-03 12:59:30",
+        "mensaje": "Ah, ya entiendo, gracias"
+    },
+    {
+        "idUsuario": "3",
+        "paraUsuario": "5",
+        "fecha": "2024-01-03 13:01:30",
+        "mensaje": "¿Hay algo más en lo que necesites ayuda?"
+    },
+    {
+        "idUsuario": "5",
+        "paraUsuario": "3",
+        "fecha": "2024-01-03 13:02:30",
+        "mensaje": "No, eso es todo por ahora"
+    },
+    {
+        "idUsuario": "3",
+        "paraUsuario": "5",
+        "fecha": "2024-01-03 13:03:30",
+        "mensaje": "Perfecto, avísame si necesitas algo más"
+    },
+    {
+        "idUsuario": "5",
+        "paraUsuario": "3",
+        "fecha": "2024-01-03 13:04:30",
+        "mensaje": "Gracias, lo haré"
+    }
+]

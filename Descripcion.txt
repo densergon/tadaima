@@ -1,0 +1,45 @@
+FRONT END
+Administrador:
+	Muestra profesores
+		Agregar profesores
+		Actualiza profesor
+		Elimina profesor (No se puede eliminar un profesor si tiene cursos asignados)
+	
+
+Profesor:
+	
+	Ve sus cursos
+		Ve un curso
+			Ve materiales:
+				Ve material
+				Agrega
+				Elimina
+			Ve tareas:
+				Ve tarea:
+					Ve tareas entregadas de esa tarea
+				Agregar tarea
+				Actualiza tarea
+				Elimina tarea (No se puede eliminar tarea si ya hay tareas entregadas)
+			Ve alumnos del curso:
+				Inscribe alumno
+				Ve alumno:
+					Ve tareas entregadas
+						Ve tarea entregada (califica)
+		Ve chats:
+			Entra a chat:
+				Leer mensajes
+				Enviar mensaje
+
+Estudiante:
+	Ver mis cursos
+		Ver curso:
+			Ver materiales
+				Ver material
+			Ver tareas:
+				Ver tarea:
+					Entregar tarea
+
+				Ver entregadas
+
+
+			

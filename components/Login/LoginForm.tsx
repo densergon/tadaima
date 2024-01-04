@@ -42,7 +42,6 @@ const LoginForm = () => {
             email: userInfo.email
           }
           const result = await axios.post("http://192.168.3.9:3000/api/auth/facebook", userAccessData);
-          console.log(userAccessData)
           if (result.status == 200) {
             const data = result.data;
             if (result.data.token) {

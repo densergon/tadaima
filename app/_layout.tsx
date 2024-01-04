@@ -23,6 +23,7 @@ const _layout = () => {
             <Tabs.Screen name='[...missing]' options={{
                 href: null,
                 headerShown: false,
+
             }} />
             <Tabs.Screen name='register' options={{
                 title: 'Registro',

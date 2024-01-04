@@ -7,6 +7,8 @@ const Page = () => {
     const user = useAuthStore.getState().user
     useEffect(() => {
         if (user?.tipo_usuario == 2) {
+            router.replace('/teacher/')
+        } else if (user?.tipo_usuario == 3) {
             router.replace('/student/')
         }
     }, [])

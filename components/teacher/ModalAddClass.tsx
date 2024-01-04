@@ -2,34 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, View, Pressable, TextInput, Alert, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
+import { useAuthStore } from '../auth/authStore';
 
 interface ModalProps {
     visible: boolean,
     onHide: () => void,
     getClasses: () => void
 }
-interface Teacher {
-    nombre: string,
-    apellidoPaterno: string,
-    apellidoMaterno: string,
-    idUsuarios: number
-}
+
 const ModalAddClass = ({ visible, onHide, getClasses }: ModalProps) => {
-    const [teachers, setTeachers] = useState<Teacher[]>([]);
+
     const [nombre, setNombre] = useState('');
-    const [profesor, setProfesor] = useState<number>(0);
-    const getTeachers = async () => {
-        const response = await axios.get('http://192.168.3.9:3000/api/teachers');
-        console.log(response.data)
-        setTeachers(response.data)
-    }
+    const profesor: number = Number(useAuthStore.getState().user?.id_usuario)
 
     useEffect(() => {
-        getTeachers().then(() => {
-            if (teachers.length > 0) {
-                setProfesor(teachers[0].idUsuarios);
-            }
-        });
     }, [])
 
     const handleSubmit = async () => {
@@ -41,18 +27,11 @@ const ModalAddClass = ({ visible, onHide, getClasses }: ModalProps) => {
 
         try {
             console.log(classData)
-            const response = await fetch('http://192.168.3.9:3000/api/classes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(classData),
-            });
-            const data = await response.json();
-            if (data.message === 'Creado exitosamente') {
+            const response = await axios.post('http://192.168.3.9:3000/api/classes', classData);
+            if (response.data.message === 'Creado exitosamente') {
                 Alert.alert('Exito', 'Clase creada correctamente');
-                getClasses()
                 onHide(); // Cerrar el modal después de un registro exitoso
+                getClasses()
             } else {
                 Alert.alert('Error', 'No se pudo registrar la clase');
             }
@@ -79,8 +58,6 @@ const ModalAddClass = ({ visible, onHide, getClasses }: ModalProps) => {
                         </View>
                         <Text style={styles.h1}>Registro de clase</Text>
                         <TextInput style={styles.txtIpt} placeholder='Nombre' onChangeText={setNombre} />
-
-
                         <Pressable style={styles.addBtn} onPress={handleSubmit}>
                             <Text style={styles.addTxtBtn}>Agregar Clase</Text>
                         </Pressable>

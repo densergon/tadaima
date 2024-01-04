@@ -17,8 +17,6 @@ const Page = () => {
                 return <TeacherAccount />;
             case 3: // Rol de Estudiante
                 return <StudentAccount />;
-            default:
-                return null;
         }
     };
 

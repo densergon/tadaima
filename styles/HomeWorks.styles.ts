@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
         borderRadius: 10
     },
     homeworkTitle: {
-        fontSize: 18
+        fontSize: 14
     },
     badgeDanger: {
         backgroundColor: '#e74c3c',

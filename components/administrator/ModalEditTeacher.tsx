@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, View, Pressable, TextInput, Alert, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import axios from 'axios';
 
 interface ModalProps {
     visible: boolean,
@@ -53,17 +54,10 @@ const ModalEditTeacher = ({ visible, onHide, getTeachers, id }: ModalProps) => {
             correoElectronico,
             password,
         };
-
+        //nombre, apellidoPaterno, apellidoMaterno, email, password
         try {
-            const response = await fetch('http://192.168.3.9:3000/api/teachers/' + id, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(teacherData),
-            });
-            const data = await response.json();
-            if (data.message === 'Usuario actualizado') {
+            const response = await axios.put(`http://192.168.3.9:3000/api/teachers/${id}`, teacherData);
+            if (response.data.message === 'Usuario actualizado') {
                 Alert.alert('Exito', 'Profesor actualizado correctamente');
                 getTeachers()
                 onHide(); // Cerrar el modal después de un registro exitoso

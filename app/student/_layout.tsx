@@ -29,11 +29,12 @@ const _layout = () => {
                     title: 'Chats',
                 }} />
             <Drawer.Screen
-                name="homework" // This is the name of the page and must match the url from root
+                name="homework/[id]" // This is the name of the page and must match the url from root
                 options={{
                     drawerItemStyle: {
                         height: 0
-                    }
+                    },
+                    title: ''
                 }} />
             <Drawer.Screen
                 name="courses/[id]" // This is the name of the page and must match the url from root

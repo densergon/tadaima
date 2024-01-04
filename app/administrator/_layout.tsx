@@ -17,12 +17,6 @@ const _layout = () => {
                     drawerLabel: 'Profesores',
                     title: 'Profesores',
                 }} />
-            <Drawer.Screen
-                name="manageClasses" // This is the name of the page and must match the url from root
-                options={{
-                    drawerLabel: 'Clases',
-                    title: 'Clases',
-                }} />
         </Drawer>
     )
 }

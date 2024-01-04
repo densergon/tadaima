@@ -1,5 +1,7 @@
 import React from 'react'
 import { Drawer } from 'expo-router/drawer';
+import NewTChat from '../../components/teacher/NewTChat';
+import AddMaterial from '../../components/teacher/AddMaterial';
 
 const _layout = () => {
     return (
@@ -20,7 +22,10 @@ const _layout = () => {
                 name="teacherChat" // This is the name of the page and must match the url from root
                 options={{
                     drawerLabel: 'Chat',
-                    title: 'Chat',
+                    title: 'Chats',
+                    headerRight: () => (
+                        <NewTChat />
+                    )
                 }} />
             <Drawer.Screen
                 name="clases/[id]" // This is the name of the page and must match the url from root
@@ -37,11 +42,39 @@ const _layout = () => {
                     drawerItemStyle: {
                         height: 0
                     },
-                    title: ''
+                    title: 'Tareas'
                 }}
             />
             <Drawer.Screen
                 name="manageMateriales/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: '',
+                    headerRight: () => <AddMaterial />
+                }}
+            />
+            <Drawer.Screen
+                name="teacherMaterial/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }}
+            />
+            <Drawer.Screen
+                name="tchat/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }}
+            />
+            <Drawer.Screen
+                name="students/[id]" // This is the name of the page and must match the url from root
                 options={{
                     drawerItemStyle: {
                         height: 0

@@ -54,7 +54,7 @@ const Page = () => {
                     {tareas.map((tarea) => (
 
                         <Link href={{
-                            pathname: "/student/homework/[id]",
+                            pathname: "/teacher/tarea/[id]",
                             params: { id: Number(tarea.idTareas) }
                         }} asChild key={tarea.idTareas}>
                             <Pressable style={styles.homework} >

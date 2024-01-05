@@ -33,13 +33,15 @@ Profesor:
 Estudiante:
 	Ver mis cursos
 		Ver curso:
+			Iniciar conversacion con el profesor
 			Ver materiales
 				Ver material
+				Descarga Material
 			Ver tareas:
 				Ver tarea:
 					Entregar tarea
-
-				Ver entregadas
+				Ver entregadas:
+					
 
 
 			

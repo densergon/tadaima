@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAuthStore } from '../../components/auth/authStore';
 import { Pressable } from 'react-native';
 import { Link } from 'expo-router';
+import { useIsFocused } from '@react-navigation/native';
 
 interface Curso {
     curso: string,
@@ -15,12 +16,15 @@ interface Curso {
 
 const Page = () => {
     const [cursos, setCursos] = useState<Curso[]>([]);
-    const idUsuario = useAuthStore.getState().user?.id_usuario
+    const idUsuario = useAuthStore.getState().user?.id_usuario;
+    const focused = useIsFocused()
 
     const fetchCursos = async () => {
         try {
-            const response = await axios.get(`http://192.168.3.9:3000/api/cursos/${idUsuario}`);
-            setCursos(response.data);
+            if (useAuthStore.getState().user?.tipo_usuario === 3) {
+                const response = await axios.get(`http://192.168.3.9:3000/api/cursos/${idUsuario}`);
+                setCursos(response.data);
+            }
         } catch (error) {
             console.error('Error al obtener cursos:', error);
         }
@@ -28,7 +32,7 @@ const Page = () => {
 
     useEffect(() => {
         fetchCursos();
-    }, []);
+    }, [focused]);
 
     return (
         <ScrollView style={styles.container}>

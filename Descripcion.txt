@@ -1,47 +1,55 @@
 FRONT END
-Administrador:
-	Muestra profesores
-		Agregar profesores
-		Actualiza profesor
-		Elimina profesor (No se puede eliminar un profesor si tiene cursos asignados)
-	
 
-Profesor:
-	
-	Ve sus cursos
-		Ve un curso
-			Ve materiales:
-				Ve material
-				Agrega
-				Elimina
-			Ve tareas:
-				Ve tarea:
-					Ve tareas entregadas de esa tarea
-				Agregar tarea
+App:
+	Inicio de sesión (contraseña,correo)---------------------------------------------------------
+	Inicio de sesión facebook--------------------------------------------------------------------
+
+Administrador(perfil):---------------------------------------------------------------------------
+	Muestra profesores---------------------------------------------------------------------------
+		Agregar profesores-----------------------------------------------------------------------
+		Actualiza profesor-----------------------------------------------------------------------
+		Elimina profesor (No se puede eliminar un profesor si tiene cursos asignados)------------
+
+Profesor(perfil):--------------------------------------------------------------------------------
+	Ve sus cursos--------------------------------------------------------------------------------
+		Ve un curso------------------------------------------------------------------------------
+			Ve materiales:-----------------------------------------------------------------------
+				Ve material----------------------------------------------------------------------
+				Agrega---------------------------------------------------------------------------
+				Elimina--------------------------------------------------------------------------
+			Ve tareas:---------------------------------------------------------------------------
+				Ve tarea:------------------------------------------------------------------------
+					Ve tareas entregadas de esa tarea--------------------------------------------
 				Actualiza tarea
-				Elimina tarea (No se puede eliminar tarea si ya hay tareas entregadas)
-			Ve alumnos del curso:
-				Inscribe alumno
+				Agregar tarea--------------------------------------------------------------------
+				Elimina tarea (No se puede eliminar tarea si ya hay tareas entregadas)-----------
+			Ve alumnos del curso:----------------------------------------------------------------
+				Inscribe alumno------------------------------------------------------------------
 				Ve alumno:
 					Ve tareas entregadas
 						Ve tarea entregada (califica)
-		Ve chats:
-			Entra a chat:
-				Leer mensajes
-				Enviar mensaje
+		Ve chats:--------------------------------------------------------------------------------
+			Entra a chat:------------------------------------------------------------------------
+				Leer mensajes--------------------------------------------------------------------
+				Enviar mensaje-------------------------------------------------------------------
 
-Estudiante:
-	Ver mis cursos
-		Ver curso:
+Estudiante(perfil):------------------------------------------------------------------------------
+	Ver mis cursos-------------------------------------------------------------------------------
+		Ver curso:-------------------------------------------------------------------------------
 			Iniciar conversacion con el profesor
 			Ver materiales
 				Ver material
-				Descarga Material
-			Ver tareas:
-				Ver tarea:
-					Entregar tarea
+			Ver tareas:--------------------------------------------------------------------------
+				Ver tarea:-----------------------------------------------------------------------
+					Entregar tarea:
 				Ver entregadas:
-					
-
+		Ver Tareas-------------------------------------------------------------------------------
+			Ver tarea:---------------------------------------------------------------------------
+				Entregar tarea:
+		Ve chats:--------------------------------------------------------------------------------
+			Entra a chat:------------------------------------------------------------------------
+				Leer mensajes--------------------------------------------------------------------
+				Enviar mensaje-------------------------------------------------------------------			
+36/46 78%
 
 			

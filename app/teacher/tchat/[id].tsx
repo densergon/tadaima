@@ -6,27 +6,55 @@ import { Feather } from '@expo/vector-icons';
 import data from '../../../fakeapi/conversacion.json'
 import { useAuthStore } from '../../../components/auth/authStore';
 import io, { Socket } from 'socket.io-client'
+import axios from 'axios';
 
 interface Mensaje {
-    idUsuario: string,
-    paraUsuario: string,
-    fecha: string,
-    mensaje: string
+    de: number,
+    para: number,
+    contenido: string,
+    created: string,
+    conversacion: number
 }
-interface Message {
-    message: string
+interface Data {
+    nombre: string
 }
-
 
 const Page = () => {
     const socket = useRef<Socket | null>(null);
-    const [mensajes, setMensajes] = useState<Message[]>([])
+    const [nombre, setNombre] = useState('')
+    const { id } = useLocalSearchParams();
+    const [mensaje, setMensaje] = useState('')
+    const [mensajes, setMensajes] = useState<Mensaje[]>([])
+    const myid = useAuthStore().user?.id_usuario;
+    const conversacion = Number(id)
 
+    Navigator.Screen({
+        options: {
+            title: nombre
+        }
+    })
+
+    const getNombre = async () => {
+        const result = await axios.post('http://192.168.3.9:3000/api/chat/data', {
+            conversacion,
+            usuario: myid
+        })
+        console.log(result.data)
+        setNombre(((result.data as Array<Data>)[0]).nombre)
+    }
+
+
+    const getMensajes = async () => {
+        const response = await axios.get(`http://192.168.3.9:3000/api/chat/conversacion/${conversacion}`)
+        setMensajes(response.data)
+    }
     useEffect(() => {
+        getNombre()
+        getMensajes()
         socket.current = io("http://192.168.3.9:3000");
         if (socket.current) {
-            socket.current.on('chat message', (message: Message) => {
-                setMensajes(last => [...last, { message: message.message }]);
+            socket.current.on('chat message', (message: Mensaje) => {
+                setMensajes(last => [...last, message]);
             })
         }
         return () => {
@@ -36,40 +64,36 @@ const Page = () => {
         };
     }, []);
 
-    Navigator.Screen({
-        options: {
-            title: 'Pedro Armendariz'
-        }
-    })
-    const { id } = useLocalSearchParams();
-    const [message, setMessage] = useState('')
-    const conversacion = ((data as any) as Array<Mensaje>)
 
-    const isMyMessage = (id: String) => {
-        return Number(id) == useAuthStore.getState().user?.id_usuario;
+
+    const isMyMessage = (id: number) => {
+        return id == useAuthStore.getState().user?.id_usuario;
     }
 
-    const formatTime = (dateString: string): string => {
-        const date = new Date(dateString);
-        let hours = date.getHours().toString();
-        let minutes = date.getMinutes().toString();
+    const format = (dateObject: Date) => {
+        const year = dateObject.getFullYear();
+        const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // getMonth() devuelve un valor de 0 a 11
+        const day = dateObject.getDate().toString().padStart(2, '0');
 
-        // Asegurarse de que las horas y minutos sean de dos dígitos
-        if (hours.length < 2) {
-            hours = '0' + hours;
-        }
-        if (minutes.length < 2) {
-            minutes = '0' + minutes;
-        }
-
-        return `${hours}:${minutes}`;
-    };
+        const hours = dateObject.getHours().toString().padStart(2, '0');
+        const minutes = dateObject.getMinutes().toString().padStart(2, '0');
+        const seconds = dateObject.getSeconds().toString().padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
     const sendMessage = () => {
+
+        const message: Mensaje = {
+            de: Number(myid),
+            para: 5,
+            created: format(new Date()),
+            contenido: mensaje,
+            conversacion: 1
+        }
         console.log(message)
-        if (message && socket.current) {
-            socket.current.emit('chat message', { message });
-            setMensajes((last) => [...last, { message: message }])
-            setMessage(''); // Limpiar el campo de texto después de enviar
+        if (socket.current) {
+            socket.current.emit('chat message', message);
+            setMensajes((mensajes) => [...mensajes, message]);
+            setMensaje(''); // Limpiar el campo de texto después de enviar
         }
     };
     return (
@@ -88,14 +112,14 @@ const Page = () => {
                 }
                 {
                     mensajes ? mensajes.map((msg, index) => (
-                        <View key={index} style={style.messageBox}>
-                            <Text>{msg.message}</Text>
+                        <View key={index} style={isMyMessage(msg.de) ? style.mine : style.notMine}>
+                            <Text>{msg.contenido}</Text>
                         </View>
                     )) : <></>
                 }
             </ScrollView>
             <View style={style.bottom}>
-                <TextInput style={style.input} placeholder='Mensaje' onChangeText={setMessage} value={message} />
+                <TextInput style={style.input} placeholder='Mensaje' onChangeText={setMensaje} value={mensaje} />
                 <Pressable style={style.sendBtn} onPress={sendMessage}>
                     <Feather name="send" size={24} color="black" />
                 </Pressable>

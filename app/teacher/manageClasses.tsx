@@ -92,14 +92,12 @@ const style = StyleSheet.create({
         gap: 5
     },
     btn: {
-        margin: 10,
-        padding: 10,
-        alignSelf: 'flex-end',
+        padding: 15,
         backgroundColor: '#3498db',
-        borderRadius: 10,
         flexDirection: 'row',
         gap: 8,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     btnTxt: {
         fontSize: 18,

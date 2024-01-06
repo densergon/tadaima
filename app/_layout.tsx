@@ -25,16 +25,6 @@ const _layout = () => {
                 headerShown: false,
 
             }} />
-            <Tabs.Screen name='register' options={{
-                title: 'Registro',
-                href: null,
-                headerLeft: () => <>
-                    <View style={{ margin: 10 }}>
-                        <Pressable onPress={back}>
-                            <AntDesign name="arrowleft" size={24} color="black" />
-                        </Pressable>
-                    </View></>
-            }} />
             <Tabs.Screen name='news' options={{
                 title: 'Noticias',
                 headerShown: false,

@@ -44,6 +44,22 @@ const _layout = () => {
                     },
                     title: ''
                 }} />
+            <Drawer.Screen
+                name="courseHomeworks/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }} />
+            <Drawer.Screen
+                name="materiales/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }} />
         </Drawer>
     )
 }

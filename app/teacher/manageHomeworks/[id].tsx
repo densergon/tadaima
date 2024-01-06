@@ -8,6 +8,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { useLocalSearchParams } from 'expo-router'
 import ModalAddHomework from '../../../components/teacher/ModalAddHomework';
 import { Feather } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 interface Tarea {
     idTareas: number,
     nombre: string,
@@ -53,17 +54,19 @@ const Page = () => {
                 <View style={styles.container}>
                     {tareas.map((tarea) => (
 
-                        <Link href={{
-                            pathname: "/teacher/tarea/[id]",
-                            params: { id: Number(tarea.idTareas) }
-                        }} asChild key={tarea.idTareas}>
-                            <Pressable style={styles.homework} >
-                                <View>
-                                    <Text style={styles.homeworkTitle}>{tarea.nombre}</Text>
-                                    <Text style={styles.homeworkTitle}>{tarea.descripcion}</Text>
-                                </View>
-                            </Pressable>
-                        </Link>
+                        <View key={tarea.idTareas} style={styles.homework} >
+                            <Link href={{
+                                pathname: "/teacher/tarea/[id]",
+                                params: { id: Number(tarea.idTareas) }
+                            }} asChild >
+                                <Pressable >
+                                    <View>
+                                        <Text style={styles.homeworkTitle}>{tarea.nombre}</Text>
+                                        <Text style={styles.homeworkTitle}>{tarea.descripcion}</Text>
+                                    </View>
+                                </Pressable>
+                            </Link>
+                        </View>
 
                     ))}
                 </View>
@@ -97,7 +100,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'row',
         padding: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     homeworkTitle: {
         fontSize: 20

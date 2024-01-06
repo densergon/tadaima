@@ -66,8 +66,6 @@ const LoginForm = () => {
 
   const handleFb = async () => {
     const result = await promptAsync();
-
-    console.log(result)
     if (result.type !== "success") {
       alert('Something went wrong')
       return;

@@ -6,6 +6,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useAuthStore } from '../auth/authStore';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useIsFocused } from '@react-navigation/native';
+import axios from 'axios';
 interface User {
     idUsuarios: number,
     nombre: string,
@@ -19,19 +21,21 @@ const Account = () => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const userId = useAuthStore().user?.id_usuario;
+    const focused = useIsFocused()
+    const getData = async () => {
+        try {
+            const response = await axios.get(`http://192.168.3.9:3000/api/teachers/${userId}`)
+            setUser(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+            setIsLoading(false);
+        }
+    }
 
     useEffect(() => {
-        fetch(`http://192.168.3.9:3000/api/teachers/${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                setUser(data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching data: ', error);
-                setIsLoading(false);
-            });
-    }, [userId]);
+        getData()
+    }, [focused]);
 
 
     const rol = useAuthStore().user?.tipo_usuario;

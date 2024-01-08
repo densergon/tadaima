@@ -4,6 +4,7 @@ import { Link, useLocalSearchParams } from 'expo-router'
 import { AntDesign, Feather } from '@expo/vector-icons';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
+import AddMaterial from '../../../components/teacher/AddMaterial';
 
 interface Material {
     idMateriales: number;
@@ -29,12 +30,20 @@ const Page = () => {
     }, [focused])
 
     const deleteMaterial = async (idM: number) => {
-        await axios.delete(`http://192.168.3.9:3000/api/materiales/${idM}`)
+        try {
+            const response = await axios.delete(`http://192.168.3.9:3000/api/materiales/${idM}`)
+            if (response.status == 200) {
+                getMateriales()
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
         <ScrollView>
-            <View style={styles.materialesContainer}>
+            <View>
+                <AddMaterial getData={() => getMateriales()} />
                 {materiales.map((material: Material) =>
                     <View key={material.idMateriales} style={styles.materialItem}>
                         <Link href={{
@@ -76,9 +85,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         textAlign: 'center'
-    },
-    materialesContainer: {
-        marginTop: 10
     },
     materialItem: {
         backgroundColor: 'white',

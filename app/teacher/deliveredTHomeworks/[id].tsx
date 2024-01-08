@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { Link, useLocalSearchParams } from 'expo-router'
 import axios from 'axios'
 import { useIsFocused } from '@react-navigation/native'
 
@@ -26,15 +26,20 @@ const Page = () => {
     return (
         <View>
             {entregadas.map((entregada) => (
-                <View key={entregada.idEntregadas} style={styles.item}>
-                    <Pressable>
-                        <Text>{entregada.nombre}</Text>
-                        <Text>{entregada.boleta}</Text>
+                <Link href={{
+                    pathname: '/teacher/deliveredTarea/[id]',
+                    params: { id: entregada.idEntregadas }
+                }} asChild key={entregada.idEntregadas}>
+                    <Pressable style={styles.item}>
+                        <View>
+                            <Text>{entregada.nombre}</Text>
+                            <Text>{entregada.boleta}</Text>
+                        </View>
+                        <View>
+                            <Text>{entregada.calificacion}</Text>
+                        </View>
                     </Pressable>
-                    <View>
-                        <Text>{entregada.calificacion}</Text>
-                    </View>
-                </View>
+                </Link>
             ))}
         </View>
     )

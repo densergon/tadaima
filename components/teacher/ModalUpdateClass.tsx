@@ -1,39 +1,44 @@
-import { View, Text, TextInput, Pressable, Modal, StyleSheet, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Modal, StyleSheet, Text, View, Pressable, TextInput, Alert, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
-import { useLocalSearchParams } from 'expo-router';
 
 interface ModalProps {
     visible: boolean,
     onHide: () => void,
-    getStudents: () => void
+    getClasses: () => void,
+    id: number
 }
 
-const ModalAddStudent = ({ visible, onHide, getStudents }: ModalProps) => {
-    const { id } = useLocalSearchParams()
-    const [boleta, setBoleta] = useState('')
-    const handleSubmit = async () => {
-        console.log(boleta)
+const ModalUpdateClass = ({ visible, onHide, getClasses, id }: ModalProps) => {
 
+    const [nombre, setNombre] = useState('');
+
+    useEffect(() => {
+    }, [])
+
+    const handleSubmit = async () => {
+
+        const classData = {
+            nombre,
+            idCurso: id
+        };
 
         try {
-            const response = await axios.post(`http://192.168.3.9:3000/api/students/curso/${id}`, {
-                boleta,
-                idCurso: Number(id)
-            });
-            if (response.data.status === 200) {
-                Alert.alert('Exito', response.data.message);
+            console.log(classData)
+            const response = await axios.put('http://192.168.3.9:3000/api/classes', classData);
+            if (response.data.message === 'Modificado exitosamente') {
+                Alert.alert('Exito', 'Actualizado exitosamente');
                 onHide();
-                setBoleta('');
-                getStudents()
+                getClasses()
             }
         } catch (error) {
-            Alert.alert('Error', 'Verifica la boleta del estudiante')
+            console.error(error);
+            Alert.alert('Error', 'Hubo un problema al intentar actualizar la clase');
         }
     };
-    return (
 
+    return (
         <Modal
             animationType="fade"
             transparent={true}
@@ -48,19 +53,18 @@ const ModalAddStudent = ({ visible, onHide, getStudents }: ModalProps) => {
                                 <AntDesign name="close" size={24} color="black" />
                             </Pressable>
                         </View>
-                        <Text style={styles.h1}>Inscribir alumno</Text>
-                        <TextInput style={styles.txtIpt} placeholder='Boleta del alumno' onChangeText={setBoleta} />
-                        <Pressable style={styles.addBtn} onPress={handleSubmit} >
-                            <Text style={styles.addTxtBtn}>Inscribir</Text>
+                        <Text style={styles.h1}>Actualizar clase</Text>
+                        <TextInput style={styles.txtIpt} placeholder='Nombre' onChangeText={setNombre} />
+                        <Pressable style={styles.addBtn} onPress={handleSubmit}>
+                            <Text style={styles.addTxtBtn}>Salvar cambios</Text>
                         </Pressable>
                     </View>
                 </View>
             </View>
         </Modal>
-    )
-}
+    );
+};
 
-export default ModalAddStudent
 
 const styles = StyleSheet.create({
     container: {
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
         padding: 20,
         width: '95%',
         borderRadius: 10,
-        marginTop: 120
+        marginTop: 40
     },
     closeBtn: {
         flexDirection: 'row',
@@ -105,3 +109,5 @@ const styles = StyleSheet.create({
         color: 'white'
     }
 });
+
+export default ModalUpdateClass;

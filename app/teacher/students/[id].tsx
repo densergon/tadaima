@@ -14,6 +14,7 @@ const Page = () => {
     const [students, setStudents] = useState<Array<Student>>([]);
     const [visible, setVisible] = useState(false)
 
+
     const getStudents = async () => {
         const response = await axios.get(`http://192.168.3.9:3000/api/students/curso/${id}`)
         setStudents(response.data)

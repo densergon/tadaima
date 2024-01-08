@@ -7,6 +7,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import ModalAddClass from '../../components/teacher/ModalAddClass';
 import { Feather } from '@expo/vector-icons';
+import ModalUpdateClass from '../../components/teacher/ModalUpdateClass';
 
 
 interface Clase {
@@ -16,7 +17,9 @@ interface Clase {
 const Page = () => {
     const [clases, setClases] = useState<Clase[]>([]);
     const [visible, setVisible] = useState(false);
+    const [visible2, setVisible2] = useState(false);
     const idProfesor = useAuthStore.getState().user?.id_usuario;
+    const [idCurso, setIdCurso] = useState(0)
     const focused = useIsFocused()
     const fetchClases = async () => {
         try {
@@ -31,7 +34,10 @@ const Page = () => {
         await axios.delete(`http://192.168.3.9:3000/api/classes/${id}`)
         fetchClases()
     }
-
+    const updateClass = (id: number) => {
+        setIdCurso(id)
+        setVisible2(true)
+    }
     useEffect(() => {
         fetchClases();
     }, [focused]);
@@ -57,7 +63,7 @@ const Page = () => {
                             </Pressable>
                         </Link>
                         <View style={style.btnSpan}>
-                            <Pressable style={style.editBtn}>
+                            <Pressable style={style.editBtn} onPress={() => updateClass(clase.idCurso)}>
                                 <Feather name="edit" size={22} color="white" />
                             </Pressable>
 
@@ -69,6 +75,7 @@ const Page = () => {
                 ))}
             </View>
             <ModalAddClass visible={visible} onHide={() => setVisible(false)} getClasses={() => fetchClases()} />
+            <ModalUpdateClass visible={visible2} onHide={() => setVisible2(false)} getClasses={() => fetchClases()} id={idCurso} />
         </ScrollView>
     );
 };

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { View, Text, Pressable, StyleSheet, Alert } from 'react-native'
 import React from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import AWS from 'aws-sdk';
@@ -58,8 +58,10 @@ const uploadFiletoS3 = async (bucketName: string, fileName: string, filePath: Bl
     const data = await s3.upload(params).promise();
     return data.Location;
 };
-
-const AddMaterial = () => {
+interface Props {
+    getData: () => void
+}
+const AddMaterial = ({ getData }: Props) => {
     const { id } = useLocalSearchParams()
     const pickFile = async () => {
         try {
@@ -82,6 +84,10 @@ const AddMaterial = () => {
                     curso: Number(id),
                     nombre: fileName
                 })
+                if (result.status == 200) {
+                    Alert.alert('Agregado exitosamente');
+                    getData()
+                }
             }
         } catch (error) {
             console.error(error);
@@ -104,14 +110,11 @@ const styles = StyleSheet.create({
     },
     btn: {
         backgroundColor: '#3498db',
-        padding: 5,
-        width: 200,
-        alignSelf: 'flex-end',
+        padding: 15,
+        width: '100%',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10,
-        margin: 5,
         gap: 8
     },
     btnText: {

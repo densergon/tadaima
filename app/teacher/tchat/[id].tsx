@@ -49,14 +49,17 @@ const Page = () => {
         setMensajes(response.data)
     }
     useEffect(() => {
-        getNombre()
-        getMensajes()
+        getNombre();
+        getMensajes();
         socket.current = io("http://192.168.3.9:3000");
+
         if (socket.current) {
+            socket.current.emit("register", myid);
             socket.current.on('chat message', (message: Mensaje) => {
                 setMensajes(last => [...last, message]);
-            })
+            });
         }
+
         return () => {
             if (socket.current) {
                 socket.current.disconnect();
@@ -93,7 +96,7 @@ const Page = () => {
         if (socket.current) {
             socket.current.emit('chat message', message);
             setMensajes((mensajes) => [...mensajes, message]);
-            setMensaje(''); // Limpiar el campo de texto después de enviar
+            setMensaje('');
         }
     };
     return (

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Drawer } from 'expo-router/drawer';
 import NewTChat from '../../components/teacher/NewTChat';
-import AddMaterial from '../../components/teacher/AddMaterial';
 
 const _layout = () => {
     return (
@@ -51,8 +50,7 @@ const _layout = () => {
                     drawerItemStyle: {
                         height: 0
                     },
-                    title: '',
-                    headerRight: () => <AddMaterial />
+                    title: ''
                 }}
             />
             <Drawer.Screen
@@ -93,6 +91,15 @@ const _layout = () => {
             />
             <Drawer.Screen
                 name="deliveredTHomeworks/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }}
+            />
+            <Drawer.Screen
+                name="deliveredTarea/[id]" // This is the name of the page and must match the url from root
                 options={{
                     drawerItemStyle: {
                         height: 0

@@ -28,7 +28,7 @@ const Page = () => {
 
     const deleteTeacher = async (idUsuarios: number) => {
         const result = await axios.delete('http://192.168.3.9:3000/api/teachers/' + idUsuarios)
-
+        getTeachers()
     }
 
     useEffect(() => {

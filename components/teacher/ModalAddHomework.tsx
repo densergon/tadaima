@@ -22,10 +22,6 @@ const ModalAddHomework = ({ visible, onHide, getData }: ModalProps) => {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('')
 
-  useEffect(() => {
-    console.log(date.toString())
-  }, [date])
-
   const toggleDatePicker = () => {
     setShowPicker(!showPicker)
   }

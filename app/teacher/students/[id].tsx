@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import axios from 'axios'
 import ModalAddStudent from '../../../components/teacher/ModalAddStudent'
+import { useIsFocused } from '@react-navigation/native'
 
 interface Student {
     boleta: string,
@@ -13,6 +14,7 @@ const Page = () => {
     const { id } = useLocalSearchParams()
     const [students, setStudents] = useState<Array<Student>>([]);
     const [visible, setVisible] = useState(false)
+    const focused = useIsFocused()
 
 
     const getStudents = async () => {
@@ -21,7 +23,7 @@ const Page = () => {
     }
     useEffect(() => {
         getStudents()
-    }, [])
+    }, [focused])
 
     return (
         <View style={styles.container}>
@@ -34,7 +36,7 @@ const Page = () => {
             <View>
                 {
                     students.map((student) => (
-                        <Pressable key={student.boleta} style={styles.item}>
+                        <Pressable key={student.boleta} style={styles.item}  >
                             <Text style={styles.itemTxt}>{student.nombre}</Text>
                             <Text style={styles.itemTxt}>{student.boleta}</Text>
                         </Pressable>

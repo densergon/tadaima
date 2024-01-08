@@ -15,15 +15,12 @@ const ModalAddStudent = ({ visible, onHide, getStudents }: ModalProps) => {
     const [boleta, setBoleta] = useState('')
     const handleSubmit = async () => {
         console.log(boleta)
-
-
         try {
             const response = await axios.post(`http://192.168.3.9:3000/api/students/curso/${id}`, {
                 boleta,
                 idCurso: Number(id)
             });
-            if (response.data.status === 200) {
-                Alert.alert('Exito', response.data.message);
+            if (response.data.message === 'Estudiante inscrito') {
                 onHide();
                 setBoleta('');
                 getStudents()

@@ -60,6 +60,22 @@ const _layout = () => {
                     },
                     title: ''
                 }} />
+            <Drawer.Screen
+                name="schat/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }} />
+            <Drawer.Screen
+                name="stdMaterial/[id]" // This is the name of the page and must match the url from root
+                options={{
+                    drawerItemStyle: {
+                        height: 0
+                    },
+                    title: ''
+                }} />
         </Drawer>
     )
 }

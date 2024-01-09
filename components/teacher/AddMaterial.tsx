@@ -11,7 +11,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 AWS.config.update({
     accessKeyId: 'AKIAVLK4GWAQNUPFWUWE',
-    secretAccessKey: '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',
+    secretAccessKey: 'd6yz/sDvGYxYpJrO6BPE30631C01X+Et+zG1vV7v', //-------------------------------------------CONFIGURACION AWS
     region: 'us-west-1'
 })
 /**
@@ -70,7 +70,7 @@ const AddMaterial = ({ getData }: Props) => {
                 copyTo: 'cachesDirectory'
             });
 
-            const bucketName = 'my-hosted-content-19d';
+            const bucketName = 'my-hosted-content-19d';//-------------------------------------------NOMBRE DEL BUCKET
             const filePath = fileDetails.uri.replace('file://', '');
             const fileName = fileDetails.name;
 

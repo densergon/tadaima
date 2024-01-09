@@ -4,12 +4,12 @@ import { StyleSheet, View } from 'react-native';
 import Pdf from 'react-native-pdf';
 
 const PDFViewer = () => {
-    const source = { uri: 'https://www.imprentanacional.go.cr/editorialdigital/libros/literatura%20infantil/el_principito_edincr.pdf', cache: true };
+    const source = { uri: 'https://my-hosted-content-19d.s3.us-west-1.amazonaws.com/Material+Ejemplo.pdf', cache: false };
 
     return (
         <View style={styles.container}>
             <Pdf
-                trustAllCerts={true}
+                trustAllCerts={false}
                 source={source}
                 onLoadComplete={(numberOfPages, filePath) => {
                     console.log(`Number of pages: ${numberOfPages}`);

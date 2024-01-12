@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Navigator, useLocalSearchParams } from 'expo-router'
+import { Navigator, router, useLocalSearchParams } from 'expo-router'
 import axios from 'axios'
 import { useIsFocused } from '@react-navigation/native'
+import { useAuthStore } from '../../../components/auth/authStore'
 //import PDFViewer from '../../../components/PDFViewer'
 interface Tarea {
     idTareas: 1,
@@ -16,7 +17,8 @@ interface Tarea {
 const Page = () => {
     const { id } = useLocalSearchParams()
     const focused = useIsFocused()
-    const [tarea, setTarea] = useState<Tarea | null>(null)
+    const [tarea, setTarea] = useState<Tarea | null>(null);
+    const idUsuario = useAuthStore().user?.id_usuario;
 
     Navigator.Screen({
         options: {
@@ -35,7 +37,22 @@ const Page = () => {
 
     useEffect(() => {
         getTarea()
-    }, [focused])
+    }, [focused]);
+
+    const entregar = async () => {
+        const tarea = {
+            idUsuario,
+            idTarea: id,
+            uri: ''
+        }
+        try {
+            const response = await axios.post(`http://192.168.3.9:3000/api/delivered/`, tarea)
+            console.log(response.data)
+            router.replace('/student/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <View>
@@ -47,7 +64,7 @@ const Page = () => {
                     <Text style={style.h2}>Fecha de entrega:{new Date(tarea.dateDelivery).toLocaleDateString()}</Text>
                 </View>
                 <View>
-                    <Pressable style={style.btn}>
+                    <Pressable style={style.btn} onPress={entregar}>
                         <Text style={style.btnTxt}>Entregar tarea</Text>
                     </Pressable>
                 </View>

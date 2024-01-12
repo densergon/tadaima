@@ -17,7 +17,7 @@ const Page = () => {
     const [entregadas, setEntregadas] = useState<Array<Entregada>>([])
 
     const getEntregadas = async () => {
-        const response = await axios.get(`http://192.168.3.9:3000/api/delivered/${Number(id)}`)
+        const response = await axios.get(`http://192.168.3.9:3000/api/delivered/all/${Number(id)}`)
         setEntregadas(response.data)
     }
     useEffect(() => {
